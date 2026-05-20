@@ -69,13 +69,36 @@ uvicorn app.main:app --reload
 
 ## API Endpoints
 
-| Method | Path                  | Description        |
-|--------|-----------------------|--------------------|
-| POST   | /api/v1/auth/register | Register a user    |
-| POST   | /api/v1/auth/login    | Login              |
-| POST   | /api/v1/auth/refresh  | Refresh token      |
-| GET    | /api/v1/users/me      | Current user       |
-| GET    | /api/v1/health        | Health check       |
+| Method | Path                                    | Description                |
+|--------|------------------------------------------|----------------------------|
+| POST   | /api/v1/auth/register                    | Register a user            |
+| POST   | /api/v1/auth/login                       | Login                      |
+| POST   | /api/v1/auth/refresh                     | Refresh token              |
+| GET    | /api/v1/users/me                         | Current user               |
+| GET    | /api/v1/health                           | Health check               |
+| POST   | /api/v1/flows                            | Create flow                |
+| GET    | /api/v1/flows                            | List flows                 |
+| GET    | /api/v1/flows/{flow_id}                  | Get flow                   |
+| PATCH  | /api/v1/flows/{flow_id}                  | Update flow                |
+| DELETE | /api/v1/flows/{flow_id}                  | Soft-delete flow           |
+| POST   | /api/v1/flows/{flow_id}/questions        | Create question            |
+| GET    | /api/v1/flows/{flow_id}/questions        | List questions             |
+| GET    | /api/v1/questions/{question_id}          | Get question               |
+| PATCH  | /api/v1/questions/{question_id}          | Update question            |
+| DELETE | /api/v1/questions/{question_id}          | Soft-delete question       |
+| POST   | /api/v1/flows/{flow_id}/files            | Upload file                |
+| GET    | /api/v1/flows/{flow_id}/files            | List files                 |
+| DELETE | /api/v1/files/{file_id}                  | Delete file                |
+| GET    | /api/v1/ai-models                        | List AI models             |
+| GET    | /api/v1/tokens/usage                     | Get token usage            |
+| POST   | /api/v1/chats                            | Create chat                |
+| GET    | /api/v1/chats                            | List chats                 |
+| GET    | /api/v1/chats/{chat_id}                  | Get chat with messages     |
+| POST   | /api/v1/chats/{chat_id}/messages         | Add chat message           |
+| GET    | /api/v1/chats/{chat_id}/messages         | Get chat messages          |
+| POST   | /api/v1/flows/{flow_id}/share            | Enable public sharing      |
+| DELETE | /api/v1/flows/{flow_id}/share            | Disable public sharing     |
+| GET    | /api/v1/public/share/{public_token}      | Access shared flow (no auth)|
 
 ## Curl Examples
 

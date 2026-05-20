@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     openai_api_key: str = "sk-your-openai-api-key"
     openai_model: str = "gpt-4o-mini"
 
+    rate_limit_tokens: int = 100000
+    rate_limit_period_days: int = 30
+    public_base_url: str = "http://localhost:8000/api/v1/public"
+
     @property
     def database_url(self) -> str:
         return (

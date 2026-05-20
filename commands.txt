@@ -1,0 +1,26 @@
+# Setup
+python3 -m venv venv
+source venv/bin/activate
+pip install -r backend/requirements.txt
+
+# Or using pyproject.toml (poetry/pip equivalent)
+pip install -e backend/
+
+# Run the server
+uvicorn app.main:app --reload --port 8000
+
+# Lint
+ruff check backend/
+
+# Format
+ruff format backend/
+
+# Test
+pytest backend/tests/
+
+# Alembic migrations
+alembic -c backend/alembic.ini upgrade head
+alembic -c backend/alembic.ini revision --autogenerate -m "description"
+
+# Run from backend directory
+cd backend && uvicorn app.main:app --reload --port 8000
