@@ -21,6 +21,7 @@ class Question(TimestampMixin, Base):
     question_flow_id: Mapped[str] = mapped_column(
         String(36), ForeignKey("flows.flow_id", ondelete="CASCADE"), nullable=False, index=True
     )
+    question_button_json: Mapped[str | None] = mapped_column(Text, nullable=True, default=None)
 
     flow: Mapped["Flow"] = relationship("Flow", back_populates="questions")
     parent: Mapped["Question | None"] = relationship(

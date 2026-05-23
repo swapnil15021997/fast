@@ -18,6 +18,7 @@ async def create_question(
         flow_id=flow_id,
         is_last=body.question_is_last,
         parent_id=body.question_parent_id,
+        button_json=body.question_button_json,
     )
 
 
@@ -48,6 +49,7 @@ async def update_question(
         question_text=body.question_text,
         question_is_last=body.question_is_last,
         question_is_delete=body.question_is_delete,
+        question_button_json=body.question_button_json,
     )
 
 

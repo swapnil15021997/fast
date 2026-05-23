@@ -17,6 +17,7 @@ class QuestionRepository:
         flow_id: str,
         is_last: bool = False,
         parent_id: str | None = None,
+        button_json: str | None = None,
     ) -> Question:
         q = Question(
             question_id=str(uuid4()),
@@ -24,6 +25,7 @@ class QuestionRepository:
             question_is_last=is_last,
             question_parent_id=parent_id,
             question_flow_id=flow_id,
+            question_button_json=button_json,
         )
         self._session.add(q)
         await self._session.flush()

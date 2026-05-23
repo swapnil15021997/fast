@@ -21,6 +21,8 @@ class Flow(TimestampMixin, Base):
     public_token: Mapped[str | None] = mapped_column(
         String(36), unique=True, index=True, nullable=True
     )
+    flow_json: Mapped[str | None] = mapped_column(Text, nullable=True, default=None)
+    flow_connection_json: Mapped[str | None] = mapped_column(Text, nullable=True, default=None)
 
     user: Mapped["User"] = relationship("User")
     questions: Mapped[list["Question"]] = relationship(

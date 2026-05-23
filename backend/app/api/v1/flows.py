@@ -41,7 +41,10 @@ async def update_flow(
     flow_service: FlowService = Depends(get_flow_service),
 ) -> FlowResponse:
     return await flow_service.update(
-        flow_id, user_id, flow_name=body.flow_name
+        flow_id, user_id,
+        flow_name=body.flow_name,
+        flow_json=body.flow_json,
+        flow_connection_json=body.flow_connection_json,
     )
 
 

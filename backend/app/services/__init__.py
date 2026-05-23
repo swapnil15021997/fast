@@ -7,6 +7,7 @@ from app.services.file import FileService
 from app.services.token import TokenService
 from app.services.chat import ChatService
 from app.services.public import PublicService
+from app.services.customer import CustomerService
 
 __all__ = [
     "AuthService",
@@ -18,4 +19,5 @@ __all__ = [
     "TokenService",
     "ChatService",
     "PublicService",
+    "CustomerService",
 ]

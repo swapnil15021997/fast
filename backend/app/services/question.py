@@ -14,8 +14,9 @@ class QuestionService:
         flow_id: str,
         is_last: bool = False,
         parent_id: str | None = None,
+        button_json: str | None = None,
     ) -> QuestionResponse:
-        q = await self._repo.create(question_text, flow_id, is_last, parent_id)
+        q = await self._repo.create(question_text, flow_id, is_last, parent_id, button_json)
         return QuestionResponse.model_validate(q)
 
     async def get_by_id(self, question_id: str) -> QuestionResponse:

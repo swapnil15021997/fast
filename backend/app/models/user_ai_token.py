@@ -15,9 +15,13 @@ class UserAIToken(Base):
     user_id: Mapped[str] = mapped_column(
         String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
+    ai_model_id: Mapped[str | None] = mapped_column(
+        String(36), ForeignKey("ai_models.ai_id", ondelete="SET NULL"), nullable=True, index=True
+    )
     tokens_used: Mapped[int] = mapped_column(BigInteger, default=0, nullable=False)
     tokens_limit: Mapped[int] = mapped_column(BigInteger, default=100000, nullable=False)
     period_start: Mapped[str] = mapped_column(String(10), nullable=False)
     period_end: Mapped[str] = mapped_column(String(10), nullable=False)
 
     user: Mapped["User"] = relationship("User")
+    ai_model: Mapped["AIModel | None"] = relationship("AIModel")

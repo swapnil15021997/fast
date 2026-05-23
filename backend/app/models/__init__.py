@@ -6,6 +6,7 @@ from app.models.file import File
 from app.models.ai_model import AIModel
 from app.models.user_ai_token import UserAIToken
 from app.models.chat import Chat, ChatMessage
+from app.models.customer import Customer
 
 __all__ = [
     "User",
@@ -17,4 +18,5 @@ __all__ = [
     "UserAIToken",
     "Chat",
     "ChatMessage",
+    "Customer",
 ]

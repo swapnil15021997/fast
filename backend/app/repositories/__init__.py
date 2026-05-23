@@ -5,6 +5,7 @@ from app.repositories.file import FileRepository
 from app.repositories.ai_model import AIModelRepository
 from app.repositories.token import UserAITokenRepository
 from app.repositories.chat import ChatRepository
+from app.repositories.customer import CustomerRepository
 
 __all__ = [
     "UserRepository",
@@ -14,4 +15,5 @@ __all__ = [
     "AIModelRepository",
     "UserAITokenRepository",
     "ChatRepository",
+    "CustomerRepository",
 ]

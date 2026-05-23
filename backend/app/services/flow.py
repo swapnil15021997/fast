@@ -32,7 +32,10 @@ class FlowService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Flow not found",
             )
-        cleaned = {k: v for k, v in kwargs.items() if v is not None}
+        cleaned = {}
+        for k, v in kwargs.items():
+            if v is not None:
+                cleaned[k] = v
         if not cleaned:
             return FlowResponse.model_validate(flow)
         flow = await self._repo.update(flow, **cleaned)

@@ -41,3 +41,9 @@ class UserAITokenRepository:
         token.tokens_used = UserAIToken.tokens_used + amount
         await self._session.flush()
         return token
+
+    async def update(self, token: UserAIToken, **kwargs) -> UserAIToken:
+        for key, value in kwargs.items():
+            setattr(token, key, value)
+        await self._session.flush()
+        return token

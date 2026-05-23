@@ -11,6 +11,7 @@ from app.repositories.file import FileRepository
 from app.repositories.ai_model import AIModelRepository
 from app.repositories.token import UserAITokenRepository
 from app.repositories.chat import ChatRepository
+from app.repositories.customer import CustomerRepository
 from app.services.auth import AuthService
 from app.services.user import UserService
 from app.services.ai import AIService
@@ -20,6 +21,7 @@ from app.services.file import FileService
 from app.services.token import TokenService
 from app.services.chat import ChatService
 from app.services.public import PublicService
+from app.services.customer import CustomerService
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
@@ -69,6 +71,12 @@ def get_chat_repository(
     session: AsyncSession = Depends(get_session_dependency),
 ) -> ChatRepository:
     return ChatRepository(session)
+
+
+def get_customer_repository(
+    session: AsyncSession = Depends(get_session_dependency),
+) -> CustomerRepository:
+    return CustomerRepository(session)
 
 
 def get_user_service(
@@ -121,6 +129,12 @@ def get_public_service(
     repo: FlowRepository = Depends(get_flow_repository),
 ) -> PublicService:
     return PublicService(repo)
+
+
+def get_customer_service(
+    repo: CustomerRepository = Depends(get_customer_repository),
+) -> CustomerService:
+    return CustomerService(repo)
 
 
 async def get_current_user_id(

@@ -9,6 +9,8 @@ class FlowCreate(BaseModel):
 
 class FlowUpdate(BaseModel):
     flow_name: str | None = None
+    flow_json: str | None = None
+    flow_connection_json: str | None = None
 
 
 class FlowResponse(BaseModel):
@@ -18,6 +20,8 @@ class FlowResponse(BaseModel):
     flow_is_delete: bool
     is_public: bool
     public_token: str | None
+    flow_json: str | None
+    flow_connection_json: str | None
     created_at: datetime
     updated_at: datetime
 
