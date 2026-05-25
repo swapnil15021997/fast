@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,16 +9,27 @@ class UserRepository:
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
-    async def create(self, email: str, hashed_password: str, name: str) -> User:
+    async def create(
+        self,
+        email: str,
+        hashed_password: str,
+        name: str,
+        is_superuser: bool = False,
+    ) -> User:
         user = User(
-            id=str(uuid4()),
             email=email,
             hashed_password=hashed_password,
             name=name,
+            is_superuser=is_superuser,
         )
         self._session.add(user)
         await self._session.flush()
+        await self._session.refresh(user)
         return user
+
+    async def list(self) -> list[User]:
+        result = await self._session.execute(select(User))
+        return list(result.scalars().all())
 
     async def get_by_email(self, email: str) -> User | None:
         result = await self._session.execute(
@@ -28,12 +37,22 @@ class UserRepository:
         )
         return result.scalar_one_or_none()
 
-    async def get_by_id(self, user_id: str) -> User | None:
+    async def get_by_id(self, user_id: int) -> User | None:
         return await self._session.get(User, user_id)
 
-    async def save_refresh_token(self, user_id: str, token: str) -> RefreshToken:
+    async def update(self, user: User, **kwargs) -> User:
+        for key, value in kwargs.items():
+            setattr(user, key, value)
+        await self._session.flush()
+        await self._session.refresh(user)
+        return user
+
+    async def delete(self, user: User) -> None:
+        await self._session.delete(user)
+        await self._session.flush()
+
+    async def save_refresh_token(self, user_id: int, token: str) -> RefreshToken:
         rt = RefreshToken(
-            id=str(uuid4()),
             user_id=user_id,
             token=token,
         )

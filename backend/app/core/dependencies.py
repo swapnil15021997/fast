@@ -119,10 +119,16 @@ def get_token_service(
     return TokenService(repo)
 
 
+def get_ai_service() -> AIService:
+    return AIService()
+
+
 def get_chat_service(
     repo: ChatRepository = Depends(get_chat_repository),
+    file_repo: FileRepository = Depends(get_file_repository),
+    ai_service: AIService = Depends(get_ai_service),
 ) -> ChatService:
-    return ChatService(repo)
+    return ChatService(repo, file_repo, ai_service)
 
 
 def get_public_service(
@@ -139,17 +145,23 @@ def get_customer_service(
 
 async def get_current_user_id(
     token: str = Depends(oauth2_scheme),
-) -> str:
+) -> int:
     payload = decode_token(token)
     if payload is None or payload.get("type") != "access":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired access token",
         )
-    user_id: str | None = payload.get("sub")
+    user_id = payload.get("sub")
     if user_id is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token payload",
         )
-    return user_id
+    try:
+        return int(user_id)
+    except (TypeError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token payload",
+        )

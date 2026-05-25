@@ -7,6 +7,7 @@ from app.schemas.chat import (
     ChatDetailResponse,
     ChatMessageCreate,
     ChatMessageResponse,
+    ChatResponseCreate,
 )
 from app.services.chat import ChatService
 
@@ -16,7 +17,7 @@ router = APIRouter()
 @router.post("", response_model=ChatResponse, status_code=201)
 async def create_chat(
     body: ChatCreate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     chat_service: ChatService = Depends(get_chat_service),
 ) -> ChatResponse:
     return await chat_service.create(
@@ -26,7 +27,7 @@ async def create_chat(
 
 @router.get("", response_model=list[ChatResponse])
 async def list_chats(
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     chat_service: ChatService = Depends(get_chat_service),
 ) -> list[ChatResponse]:
     return await chat_service.list_by_user(user_id)
@@ -34,8 +35,8 @@ async def list_chats(
 
 @router.get("/{chat_id}", response_model=ChatDetailResponse)
 async def get_chat(
-    chat_id: str,
-    user_id: str = Depends(get_current_user_id),
+    chat_id: int,
+    user_id: int = Depends(get_current_user_id),
     chat_service: ChatService = Depends(get_chat_service),
 ) -> ChatDetailResponse:
     return await chat_service.get_by_id(chat_id)
@@ -43,18 +44,33 @@ async def get_chat(
 
 @router.post("/{chat_id}/messages", response_model=ChatMessageResponse, status_code=201)
 async def add_message(
-    chat_id: str,
+    chat_id: int,
     body: ChatMessageCreate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     chat_service: ChatService = Depends(get_chat_service),
 ) -> ChatMessageResponse:
     return await chat_service.add_message(chat_id, body.role, body.content)
 
 
+@router.post("/{chat_id}/respond", response_model=ChatMessageResponse, status_code=201)
+async def respond_chat(
+    chat_id: int,
+    body: ChatResponseCreate,
+    user_id: int = Depends(get_current_user_id),
+    chat_service: ChatService = Depends(get_chat_service),
+) -> ChatMessageResponse:
+    return await chat_service.respond(
+        chat_id,
+        body.prompt,
+        model=body.model,
+        file_ids=body.file_ids,
+    )
+
+
 @router.get("/{chat_id}/messages", response_model=list[ChatMessageResponse])
 async def get_messages(
-    chat_id: str,
-    user_id: str = Depends(get_current_user_id),
+    chat_id: int,
+    user_id: int = Depends(get_current_user_id),
     chat_service: ChatService = Depends(get_chat_service),
 ) -> list[ChatMessageResponse]:
     return await chat_service.get_messages(chat_id)

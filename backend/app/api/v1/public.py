@@ -11,8 +11,8 @@ router = APIRouter()
 
 @router.post("/flows/{flow_id}/share", response_model=PublicShareResponse)
 async def enable_sharing(
-    flow_id: str,
-    user_id: str = Depends(get_current_user_id),
+    flow_id: int,
+    user_id: int = Depends(get_current_user_id),
     public_service: PublicService = Depends(get_public_service),
 ) -> PublicShareResponse:
     return await public_service.enable_sharing(flow_id, user_id)
@@ -20,8 +20,8 @@ async def enable_sharing(
 
 @router.delete("/flows/{flow_id}/share", response_model=FlowResponse)
 async def disable_sharing(
-    flow_id: str,
-    user_id: str = Depends(get_current_user_id),
+    flow_id: int,
+    user_id: int = Depends(get_current_user_id),
     public_service: PublicService = Depends(get_public_service),
 ) -> FlowResponse:
     return await public_service.disable_sharing(flow_id, user_id)

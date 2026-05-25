@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,12 +13,12 @@ class AIModelRepository:
         return list(result.scalars().all())
 
     async def create(self, ai_name: str) -> AIModel:
-        model = AIModel(ai_id=str(uuid4()), ai_name=ai_name)
+        model = AIModel(ai_name=ai_name)
         self._session.add(model)
         await self._session.flush()
         return model
 
-    async def get_by_id(self, ai_id: str) -> AIModel | None:
+    async def get_by_id(self, ai_id: int) -> AIModel | None:
         return await self._session.get(AIModel, ai_id)
 
     async def update(self, model: AIModel, **kwargs) -> AIModel:

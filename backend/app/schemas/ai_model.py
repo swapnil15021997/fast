@@ -10,7 +10,7 @@ class AIModelUpdate(BaseModel):
 
 
 class AIModelResponse(BaseModel):
-    ai_id: str
+    ai_id: int
     ai_name: str
 
     model_config = {"from_attributes": True}

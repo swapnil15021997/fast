@@ -12,7 +12,7 @@ class PublicService:
     def __init__(self, repo: FlowRepository) -> None:
         self._repo = repo
 
-    async def enable_sharing(self, flow_id: str, user_id: str) -> PublicShareResponse:
+    async def enable_sharing(self, flow_id: int, user_id: int) -> PublicShareResponse:
         flow = await self._repo.get_by_id_for_user(flow_id, user_id)
         if not flow:
             raise HTTPException(
@@ -27,7 +27,7 @@ class PublicService:
         share_url = f"{settings.public_base_url}/{token}"
         return PublicShareResponse(public_token=token, share_url=share_url)
 
-    async def disable_sharing(self, flow_id: str, user_id: str) -> FlowResponse:
+    async def disable_sharing(self, flow_id: int, user_id: int) -> FlowResponse:
         flow = await self._repo.get_by_id_for_user(flow_id, user_id)
         if not flow:
             raise HTTPException(

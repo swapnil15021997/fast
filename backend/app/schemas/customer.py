@@ -22,14 +22,14 @@ class CustomerUpdate(BaseModel):
 
 
 class CustomerResponse(BaseModel):
-    customer_id: str
+    customer_id: int
     name: str
     email: str
     phone: str | None
     address: str | None
     company: str | None
     notes: str | None
-    created_by: str
+    created_by: int
     created_at: datetime
     updated_at: datetime
 

@@ -8,11 +8,11 @@ class FlowService:
     def __init__(self, repo: FlowRepository) -> None:
         self._repo = repo
 
-    async def create(self, flow_name: str, user_id: str) -> FlowResponse:
+    async def create(self, flow_name: str, user_id: int) -> FlowResponse:
         flow = await self._repo.create(flow_name, user_id)
         return FlowResponse.model_validate(flow)
 
-    async def get_by_id(self, flow_id: str, user_id: str) -> FlowResponse:
+    async def get_by_id(self, flow_id: int, user_id: int) -> FlowResponse:
         flow = await self._repo.get_by_id_for_user(flow_id, user_id)
         if not flow:
             raise HTTPException(
@@ -21,11 +21,11 @@ class FlowService:
             )
         return FlowResponse.model_validate(flow)
 
-    async def list_by_user(self, user_id: str) -> list[FlowResponse]:
+    async def list_by_user(self, user_id: int) -> list[FlowResponse]:
         flows = await self._repo.list_by_user(user_id)
         return [FlowResponse.model_validate(f) for f in flows]
 
-    async def update(self, flow_id: str, user_id: str, **kwargs) -> FlowResponse:
+    async def update(self, flow_id: int, user_id: int, **kwargs) -> FlowResponse:
         flow = await self._repo.get_by_id_for_user(flow_id, user_id)
         if not flow:
             raise HTTPException(
@@ -41,7 +41,7 @@ class FlowService:
         flow = await self._repo.update(flow, **cleaned)
         return FlowResponse.model_validate(flow)
 
-    async def delete(self, flow_id: str, user_id: str) -> None:
+    async def delete(self, flow_id: int, user_id: int) -> None:
         flow = await self._repo.get_by_id_for_user(flow_id, user_id)
         if not flow:
             raise HTTPException(

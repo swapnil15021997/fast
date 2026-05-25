@@ -8,11 +8,11 @@ class CustomerService:
     def __init__(self, repo: CustomerRepository) -> None:
         self._repo = repo
 
-    async def create(self, user_id: str, **kwargs) -> CustomerResponse:
+    async def create(self, user_id: int, **kwargs) -> CustomerResponse:
         customer = await self._repo.create(user_id, **kwargs)
         return CustomerResponse.model_validate(customer)
 
-    async def get_by_id(self, customer_id: str) -> CustomerResponse:
+    async def get_by_id(self, customer_id: int) -> CustomerResponse:
         customer = await self._repo.get_by_id(customer_id)
         if not customer:
             raise HTTPException(
@@ -25,7 +25,7 @@ class CustomerService:
         customers = await self._repo.list_all()
         return [CustomerResponse.model_validate(c) for c in customers]
 
-    async def update(self, customer_id: str, **kwargs) -> CustomerResponse:
+    async def update(self, customer_id: int, **kwargs) -> CustomerResponse:
         customer = await self._repo.get_by_id(customer_id)
         if not customer:
             raise HTTPException(
@@ -38,7 +38,7 @@ class CustomerService:
         customer = await self._repo.update(customer, **cleaned)
         return CustomerResponse.model_validate(customer)
 
-    async def delete(self, customer_id: str) -> None:
+    async def delete(self, customer_id: int) -> None:
         customer = await self._repo.get_by_id(customer_id)
         if not customer:
             raise HTTPException(

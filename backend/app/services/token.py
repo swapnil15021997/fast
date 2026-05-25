@@ -17,7 +17,7 @@ class TokenService:
         period_end = (now + timedelta(days=settings.rate_limit_period_days)).strftime("%Y-%m-%d")
         return period_start, period_end
 
-    async def get_usage(self, user_id: str) -> TokenUsageResponse:
+    async def get_usage(self, user_id: int) -> TokenUsageResponse:
         period_start, period_end = self._current_period()
         token_record = await self._repo.get_or_create(user_id, period_start, period_end)
         return TokenUsageResponse(
@@ -28,7 +28,7 @@ class TokenService:
             period_end=token_record.period_end,
         )
 
-    async def check_and_consume(self, user_id: str, amount: int = 1) -> TokenUsageResponse:
+    async def check_and_consume(self, user_id: int, amount: int = 1) -> TokenUsageResponse:
         period_start, period_end = self._current_period()
         token_record = await self._repo.get_or_create(user_id, period_start, period_end)
         if token_record.tokens_used + amount > token_record.tokens_limit:

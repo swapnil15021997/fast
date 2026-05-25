@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
@@ -14,13 +12,12 @@ class QuestionRepository:
     async def create(
         self,
         question_text: str,
-        flow_id: str,
+        flow_id: int,
         is_last: bool = False,
-        parent_id: str | None = None,
+        parent_id: int | None = None,
         button_json: str | None = None,
     ) -> Question:
         q = Question(
-            question_id=str(uuid4()),
             question_text=question_text,
             question_is_last=is_last,
             question_parent_id=parent_id,
@@ -31,10 +28,10 @@ class QuestionRepository:
         await self._session.flush()
         return q
 
-    async def get_by_id(self, question_id: str) -> Question | None:
+    async def get_by_id(self, question_id: int) -> Question | None:
         return await self._session.get(Question, question_id)
 
-    async def list_by_flow(self, flow_id: str) -> list[Question]:
+    async def list_by_flow(self, flow_id: int) -> list[Question]:
         result = await self._session.execute(
             select(Question)
             .where(Question.question_flow_id == flow_id, Question.question_is_delete == False)

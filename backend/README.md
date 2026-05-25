@@ -135,3 +135,8 @@ pytest -v --cov=app
 ## Environment Variables
 
 See `.env.example` for all configurable variables.
+
+
+alembic revision --autogenerate -m "initial"
+
+alembic upgrade head

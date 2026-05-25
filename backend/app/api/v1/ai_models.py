@@ -23,7 +23,7 @@ async def list_ai_models(
 @router.post("", response_model=AIModelResponse, status_code=201)
 async def create_ai_model(
     body: AIModelCreate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     user_repo: UserRepository = Depends(get_user_repository),
     repo: AIModelRepository = Depends(get_ai_model_repository),
 ) -> AIModelResponse:
@@ -40,9 +40,9 @@ async def create_ai_model(
 
 @router.patch("/{ai_id}", response_model=AIModelResponse)
 async def update_ai_model(
-    ai_id: str,
+    ai_id: int,
     body: AIModelUpdate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     user_repo: UserRepository = Depends(get_user_repository),
     repo: AIModelRepository = Depends(get_ai_model_repository),
 ) -> AIModelResponse:
@@ -67,8 +67,8 @@ async def update_ai_model(
 
 @router.delete("/{ai_id}", status_code=204)
 async def delete_ai_model(
-    ai_id: str,
-    user_id: str = Depends(get_current_user_id),
+    ai_id: int,
+    user_id: int = Depends(get_current_user_id),
     user_repo: UserRepository = Depends(get_user_repository),
     repo: AIModelRepository = Depends(get_ai_model_repository),
 ) -> None:

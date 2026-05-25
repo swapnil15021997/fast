@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -11,10 +9,9 @@ class FileRepository:
         self._session = session
 
     async def create(
-        self, flow_id: str, file_path: str, file_name: str, file_size: int = 0, file_type: str = ""
+        self, flow_id: int, file_path: str, file_name: str, file_size: int = 0, file_type: str = ""
     ) -> File:
         f = File(
-            file_id=str(uuid4()),
             flow_file_id=flow_id,
             file_path=file_path,
             file_name=file_name,
@@ -25,10 +22,10 @@ class FileRepository:
         await self._session.flush()
         return f
 
-    async def get_by_id(self, file_id: str) -> File | None:
+    async def get_by_id(self, file_id: int) -> File | None:
         return await self._session.get(File, file_id)
 
-    async def list_by_flow(self, flow_id: str) -> list[File]:
+    async def list_by_flow(self, flow_id: int) -> list[File]:
         result = await self._session.execute(
             select(File).where(File.flow_file_id == flow_id).order_by(File.created_at.desc())
         )

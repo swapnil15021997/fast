@@ -10,7 +10,7 @@ router = APIRouter()
 @router.post("", response_model=CustomerResponse, status_code=201)
 async def create_customer(
     body: CustomerCreate,
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     customer_service: CustomerService = Depends(get_customer_service),
 ) -> CustomerResponse:
     return await customer_service.create(
@@ -33,7 +33,7 @@ async def list_customers(
 
 @router.get("/{customer_id}", response_model=CustomerResponse)
 async def get_customer(
-    customer_id: str,
+    customer_id: int,
     customer_service: CustomerService = Depends(get_customer_service),
 ) -> CustomerResponse:
     return await customer_service.get_by_id(customer_id)
@@ -41,7 +41,7 @@ async def get_customer(
 
 @router.patch("/{customer_id}", response_model=CustomerResponse)
 async def update_customer(
-    customer_id: str,
+    customer_id: int,
     body: CustomerUpdate,
     customer_service: CustomerService = Depends(get_customer_service),
 ) -> CustomerResponse:
@@ -58,7 +58,7 @@ async def update_customer(
 
 @router.delete("/{customer_id}", status_code=204)
 async def delete_customer(
-    customer_id: str,
+    customer_id: int,
     customer_service: CustomerService = Depends(get_customer_service),
 ) -> None:
     await customer_service.delete(customer_id)

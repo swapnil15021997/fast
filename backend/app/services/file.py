@@ -10,7 +10,7 @@ class FileService:
 
     async def upload(
         self,
-        flow_id: str,
+        flow_id: int,
         file_path: str,
         file_name: str,
         file_size: int = 0,
@@ -19,11 +19,11 @@ class FileService:
         f = await self._repo.create(flow_id, file_path, file_name, file_size, file_type)
         return FileResponse.model_validate(f)
 
-    async def list_by_flow(self, flow_id: str) -> list[FileResponse]:
+    async def list_by_flow(self, flow_id: int) -> list[FileResponse]:
         files = await self._repo.list_by_flow(flow_id)
         return [FileResponse.model_validate(f) for f in files]
 
-    async def delete(self, file_id: str) -> None:
+    async def delete(self, file_id: int) -> None:
         f = await self._repo.get_by_id(file_id)
         if not f:
             raise HTTPException(

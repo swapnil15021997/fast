@@ -16,9 +16,9 @@ UPLOAD_DIR = "uploads"
 
 @router.post("/flows/{flow_id}/files", response_model=FileResponse, status_code=201)
 async def upload_file(
-    flow_id: str,
+    flow_id: int,
     file: UploadFile = FileForm(...),
-    user_id: str = Depends(get_current_user_id),
+    user_id: int = Depends(get_current_user_id),
     file_service: FileService = Depends(get_file_service),
     flow_service: FlowService = Depends(get_flow_service),
 ) -> FileResponse:
@@ -41,8 +41,8 @@ async def upload_file(
 
 @router.get("/flows/{flow_id}/files", response_model=list[FileResponse])
 async def list_files(
-    flow_id: str,
-    user_id: str = Depends(get_current_user_id),
+    flow_id: int,
+    user_id: int = Depends(get_current_user_id),
     file_service: FileService = Depends(get_file_service),
     flow_service: FlowService = Depends(get_flow_service),
 ) -> list[FileResponse]:
@@ -52,8 +52,8 @@ async def list_files(
 
 @router.delete("/files/{file_id}", status_code=204)
 async def delete_file(
-    file_id: str,
-    user_id: str = Depends(get_current_user_id),
+    file_id: int,
+    user_id: int = Depends(get_current_user_id),
     file_service: FileService = Depends(get_file_service),
 ) -> None:
     await file_service.delete(file_id)

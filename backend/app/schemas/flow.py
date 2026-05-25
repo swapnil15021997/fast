@@ -14,9 +14,9 @@ class FlowUpdate(BaseModel):
 
 
 class FlowResponse(BaseModel):
-    flow_id: str
+    flow_id: int
     flow_name: str
-    flow_user_id: str
+    flow_user_id: int
     flow_is_delete: bool
     is_public: bool
     public_token: str | None
@@ -29,7 +29,7 @@ class FlowResponse(BaseModel):
 
 
 class FlowPublicResponse(BaseModel):
-    flow_id: str
+    flow_id: int
     flow_name: str
     created_at: datetime
 

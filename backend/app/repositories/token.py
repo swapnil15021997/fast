@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -10,7 +8,7 @@ class UserAITokenRepository:
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
-    async def get_or_create(self, user_id: str, period_start: str, period_end: str) -> UserAIToken:
+    async def get_or_create(self, user_id: int, period_start: str, period_end: str) -> UserAIToken:
         result = await self._session.execute(
             select(UserAIToken).where(
                 UserAIToken.user_id == user_id,
@@ -22,16 +20,16 @@ class UserAITokenRepository:
         if token:
             return token
         token = UserAIToken(
-            id=str(uuid4()),
             user_id=user_id,
             period_start=period_start,
             period_end=period_end,
         )
         self._session.add(token)
         await self._session.flush()
+        await self._session.refresh(token)
         return token
 
-    async def get_by_user_id(self, user_id: str) -> list[UserAIToken]:
+    async def get_by_user_id(self, user_id: int) -> list[UserAIToken]:
         result = await self._session.execute(
             select(UserAIToken).where(UserAIToken.user_id == user_id)
         )

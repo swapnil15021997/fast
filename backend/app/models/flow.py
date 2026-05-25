@@ -1,6 +1,4 @@
-import uuid
-
-from sqlalchemy import Boolean, ForeignKey, String, Text
+from sqlalchemy import BigInteger, Boolean, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base, TimestampMixin
@@ -9,12 +7,10 @@ from app.db.base import Base, TimestampMixin
 class Flow(TimestampMixin, Base):
     __tablename__ = "flows"
 
-    flow_id: Mapped[str] = mapped_column(
-        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
-    )
+    flow_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     flow_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    flow_user_id: Mapped[str] = mapped_column(
-        String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    flow_user_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
     )
     flow_is_delete: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     is_public: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)

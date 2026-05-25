@@ -16,19 +16,19 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 
-def create_access_token(subject: str) -> str:
+def create_access_token(subject: str | int) -> str:
     expire = datetime.now(timezone.utc) + timedelta(
         minutes=settings.jwt_access_token_expire_minutes
     )
-    to_encode = {"sub": subject, "exp": expire, "type": "access"}
+    to_encode = {"sub": str(subject), "exp": expire, "type": "access"}
     return jwt.encode(to_encode, settings.secret_key, algorithm=settings.jwt_algorithm)
 
 
-def create_refresh_token(subject: str) -> str:
+def create_refresh_token(subject: str | int) -> str:
     expire = datetime.now(timezone.utc) + timedelta(
         days=settings.jwt_refresh_token_expire_days
     )
-    to_encode = {"sub": subject, "exp": expire, "type": "refresh"}
+    to_encode = {"sub": str(subject), "exp": expire, "type": "refresh"}
     return jwt.encode(to_encode, settings.secret_key, algorithm=settings.jwt_algorithm)
 
 

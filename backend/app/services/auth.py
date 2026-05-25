@@ -54,9 +54,9 @@ class AuthService:
                 detail="Refresh token has been revoked",
             )
         await self._repo.revoke_refresh_token(stored)
-        return await self._generate_tokens(payload["sub"])
+        return await self._generate_tokens(int(payload["sub"]))
 
-    async def _generate_tokens(self, user_id: str) -> TokenResponse:
+    async def _generate_tokens(self, user_id: int) -> TokenResponse:
         access = create_access_token(user_id)
         refresh = create_refresh_token(user_id)
         await self._repo.save_refresh_token(user_id, refresh)

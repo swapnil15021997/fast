@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 
 class FileResponse(BaseModel):
-    file_id: str
-    flow_file_id: str
+    file_id: int
+    flow_file_id: int
     file_path: str
     file_name: str
     file_size: int

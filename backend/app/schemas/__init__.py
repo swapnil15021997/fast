@@ -1,5 +1,5 @@
 from app.schemas.auth import TokenResponse, UserLogin, RefreshRequest
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
 from app.schemas.flow import FlowCreate, FlowUpdate, FlowResponse, FlowPublicResponse
 from app.schemas.question import QuestionCreate, QuestionUpdate, QuestionResponse
 from app.schemas.file import FileResponse
@@ -15,6 +15,7 @@ __all__ = [
     "RefreshRequest",
     "UserCreate",
     "UserResponse",
+    "UserUpdate",
     "FlowCreate",
     "FlowUpdate",
     "FlowResponse",
